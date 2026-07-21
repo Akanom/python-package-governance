@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=77,<82"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-package-governance"
+version = "0.1.0"
+description = "Reusable supply-chain security checks for Python packages"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10"]
+
+[tool.setuptools.packages.find]
+include = ["scripts"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
