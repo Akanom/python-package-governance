@@ -4,13 +4,11 @@ The reviewed `.in` files are compiled to exact, hash-pinned `.txt` files. The
 project intentionally does not use `.lock` files because they cannot be stored
 reliably in the configured OneDrive workspace.
 
-Regenerate with the oldest maintained Python minor version:
+Generate the CI and release sets on Linux with Python 3.12 so
+platform-conditional dependencies match the reusable workflow runner:
 
 ```powershell
-python -m piptools compile --generate-hashes --resolver=backtracking `
-  --output-file requirements/test.txt requirements/test.in
-python -m piptools compile --generate-hashes --resolver=backtracking `
-  --output-file requirements/release.txt requirements/release.in
+docker run --rm -v "${PWD}:/workspace" -w /workspace python:3.12-slim sh -c 'python -m pip install "pip-tools>=7.5,<8" && pip-compile --generate-hashes --resolver=backtracking --strip-extras --no-emit-index-url --no-emit-trusted-host requirements/test.in -o requirements/test.txt && pip-compile --generate-hashes --resolver=backtracking --strip-extras --no-emit-index-url --no-emit-trusted-host requirements/release.in -o requirements/release.txt'
 ```
 
 Install without changing the reviewed resolution:

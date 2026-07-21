@@ -9,10 +9,10 @@ description = "Reusable supply-chain security checks for Python packages"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-dependencies = []
+dependencies = ["tomli>=2,<3; python_version < '3.11'"]
 
 [project.optional-dependencies]
-test = ["pytest>=8,<10"]
+test = ["pytest>=8,<10", "ruff>=0.6,<1"]
 
 [tool.setuptools.packages.find]
 include = ["scripts"]
