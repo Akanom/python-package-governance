@@ -30,7 +30,9 @@ exception is narrowly scoped, owned, dated, and reassessed on version change.
 4. Call reusable workflows by a reviewed immutable commit SHA.
 5. Add minimum-version, latest-compatible, and optional-extra test jobs.
 6. Configure protected branches, CODEOWNERS, secret scanning, push protection,
-   and dependency review in repository settings.
+   dependency review, and the required per-language CodeQL contexts in
+   repository settings. Use the checked-in advanced CodeQL workflow instead of
+   default setup so Dependabot pull requests produce those protected contexts.
 7. Publish through a protected environment and PyPI Trusted Publishing; grant
    `id-token: write` only to the publish job.
 8. Attach an SPDX or CycloneDX SBOM and provenance to the release, then install
@@ -51,3 +53,10 @@ The example workflows pin each third-party `uses:` reference to the commit
 currently resolved from its documented major-version tag. Dependabot should
 propose controlled updates. Adopting repositories must reference reusable
 workflows by a reviewed immutable SHA as well.
+
+The governance repository's advanced CodeQL workflow runs on `pull_request`,
+not `pull_request_target`, so Dependabot changes are analyzed without exposing
+write-capable credentials to untrusted code. Repository default setup must
+remain disabled while this workflow owns CodeQL analysis. Its job names are
+part of the branch-protection contract: `Analyze (actions)` and
+`Analyze (python)`.
